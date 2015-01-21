@@ -1,0 +1,41 @@
+<h1>Form</h1>
+
+<% @patient.inspect %>
+
+<%= form_for @patient do |f| %>
+
+<%= f.label :first_name %>
+<%= f.text_field :first_name %>
+<br>
+<br>
+<%= f.label :last_name %>
+<%= f.text_field :last_name %>
+<br>
+<br>
+<%= f.label :date_of_birth %>
+<%= f.date_select :date_of_birth, :start_year => Date.today.year - 100, :end_year => Date.today.year %>
+<br>
+<br>
+<%= f.radio_button :gender, ('male'), :checked =>true %>
+<%= label :gender_male, 'male' %>
+<%= f.radio_button :gender, ('female'), :checked =>true %>
+<%= label :gender_female, 'female' %>
+<br> 
+<br>
+<%= f.label :description %>
+<%= f.text_area :description %>
+<br>
+<br>
+<%= f.label :blood_type %>
+<%= f.select :blood_type,
+    options_for_select( Patient::BLOOD_TYPE_OPTIONS, f.object.blood_type), include_blank: "---select---" %>
+<br>
+<br>
+<%= f.submit %>
+|
+<%= link_to "Cancel", patients_path %>
+<% end %>
+
+
+
+
