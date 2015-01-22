@@ -20,10 +20,22 @@ class Patient < ActiveRecord::Base
   validates :gender, presence: true
   validates :description, presence: true
   validates :blood_type, presence: true
-  
-# how do you add a validates for patients to be 10 yrs or older?
+  validate :at_least_10
+
+  def at_least_10
+    if self.date_of_birth
+      errors.add(:date_of_birth, ':You must be at least 10 years or older') if self.date_of_birth > 10.years.ago.to_date
+     
+    end
+  end
   
 end
+
+  
+# how do you add a validates for patients to be 10 yrs or older- 
+# I keep getting the error msg even if older than 10
+
+  
 
    
 

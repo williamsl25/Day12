@@ -25,8 +25,10 @@
 <!-- how do you include patient must be 10 or older? -->
 <br>
 <%= f.label :gender %>
-<%= f.radio_button :gender, 'male', :checked => true %> Male
-<%= f.radio_button :gender, 'female' %> Female  
+<%= f.radio_button(:gender, 'male') %> 
+<%= f.label(:gender, "male") %>
+<%= f.radio_button(:gender, 'female') %> 
+<%= f.label(:gender, "female") %>  
 <br> 
 <!-- gender always gives error message- how do you include empty option and save patient -->
 <br>
