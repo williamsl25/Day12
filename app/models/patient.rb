@@ -13,5 +13,17 @@ class Patient < ActiveRecord::Base
     ["O+", "o+"],
     ["O-", "o-"],
   ]
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :date_of_birth, presence: true
+  validates :gender, presence: true
+  validates :description, presence: true
+  validates :blood_type, presence: true
+  
+# how do you add a validates for patients to be 10 yrs or older?
+  
 end
+
+   
 

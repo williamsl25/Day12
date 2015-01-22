@@ -9,11 +9,24 @@ class PatientsController < ApplicationController
   
   end
 
-  def create
-    @patient = Patient.create patient_params
-    redirect_to patients_path
+  # def create
+  #   @patient = Patient.create patient_params
+  #   redirect_to patients_path
 
+  # end
+
+def create
+    @patient = Patient.new(patient_params)
+    # flash
+    if @patient.save
+      flash[:notice] = 'Patient was successfully created.'
+      redirect_to patients_path
+    else
+      flash[:error] = 'Patient was NOT saved.'
+      render :new
+    end
   end
+
 
   def edit
     @patient = Patient.find params[:id]

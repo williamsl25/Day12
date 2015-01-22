@@ -4,6 +4,13 @@
 
 <%= form_for @patient do |f| %>
 
+  <% if @patient.errors.any? %>
+    <% @patient.errors.full_messages.each do |message| %>
+      <%= message %>
+      <br>
+    <% end %>
+ <% end %>
+  
 <%= f.label :first_name %>
 <%= f.text_field :first_name %>
 <br>
@@ -15,12 +22,13 @@
 <%= f.label :date_of_birth %>
 <%= f.date_select :date_of_birth, :start_year => Date.today.year - 100, :end_year => Date.today.year %>
 <br>
+<!-- how do you include patient must be 10 or older? -->
 <br>
-<%= f.radio_button :gender, ('male'), :checked =>true %>
-<%= label :gender_male, 'male' %>
-<%= f.radio_button :gender, ('female'), :checked =>true %>
-<%= label :gender_female, 'female' %>
+<%= f.label :gender %>
+<%= f.radio_button :gender, 'male', :checked => true %> Male
+<%= f.radio_button :gender, 'female' %> Female  
 <br> 
+<!-- gender always gives error message- how do you include empty option and save patient -->
 <br>
 <%= f.label :description %>
 <%= f.text_area :description %>
