@@ -1,0 +1,42 @@
+<h1>Hospital</h1>
+<br>
+  <strong>Name:</strong>
+  <%= @hospital.name %>
+
+
+<p>
+  <strong>Description:</strong>
+  <%= @hospital.description %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @hospital.address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @hospital.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @hospital.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @hospital.zip %>
+</p>
+
+<p>
+  <strong>Patient List:</strong>
+  <%= link_to "Add Patient", new_hospital_patient_path(@hospital) %>
+  <ul>
+    <% @patients.each do |patient| %>
+      <li><%= patient.first_name %> <%= patient.last_name %><%= patient.date_of_birth %> <%= patient.description %></li>
+    <% end %>
+  </ul>
+</p>
+<%= link_to 'Edit', edit_hospital_path(@hospital) %> |
+<%= link_to 'Back', hospitals_path %>

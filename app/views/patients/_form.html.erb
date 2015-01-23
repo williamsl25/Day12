@@ -2,7 +2,7 @@
 
 <% @patient.inspect %>
 
-<%= form_for @patient do |f| %>
+<%= form_for [@hospital, @patient] do |f| %>
 
   <% if @patient.errors.any? %>
     <% @patient.errors.full_messages.each do |message| %>
@@ -43,7 +43,7 @@
 <br>
 <%= f.submit %>
 |
-<%= link_to "Cancel", patients_path %>
+<%= link_to "Cancel", hospital_path(@hospital) %>
 <% end %>
 
 

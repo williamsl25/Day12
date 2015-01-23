@@ -1,4 +1,8 @@
 class Patient < ActiveRecord::Base
+
+  belongs_to :hospital
+  has_many :medication
+
   BLOOD_TYPE_OPTIONS= [
     ["A", "a"],
     ["A-", "a-"],
@@ -32,8 +36,6 @@ class Patient < ActiveRecord::Base
 end
 
   
-# how do you add a validates for patients to be 10 yrs or older- 
-# I keep getting the error msg even if older than 10
 
   
 

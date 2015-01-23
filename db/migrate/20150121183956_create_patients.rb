@@ -5,7 +5,7 @@ class CreatePatients < ActiveRecord::Migration
       t.string :last_name
       t.date :date_of_birth
       t.text :description
-      t.tinyint :gender
+      t.string :gender
       t.string :blood_type
       t.timestamps null: false
     end
