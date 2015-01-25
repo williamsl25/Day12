@@ -1,0 +1,25 @@
+<h1>Patient</h1>
+<br>
+<%= link_to "Welcome", root_path %>
+<%= link_to hospital.name, hospital_path(hospital) %>
+<div>
+  <strong><%= patient.first_name %></strong>
+  <strong><%= patient.last_name %></strong>
+  <br>
+  <strong><%= patient.date_of_birth %></strong>
+  <strong><%= patient.gender %></strong>
+  <strong><%= patient.description%></strong>
+</div>  
+
+<%= @patient.medications.each do |medication| %>
+  
+<%= link_to medication.name, hospital_patient_medication_path(@hospital, @patient, medication) %>
+|
+<%= link_to "Edit", edit_hospital_patient_medication_path(@hospital, @patient, medication) %>
+|
+<%= link_to "Delete", hospital_patient_medication_path(@hospital, @patient, medication), method: :delete %>
+
+<br>
+<% end %>
+<%= link_to 'Back', hospitals_path %>
+

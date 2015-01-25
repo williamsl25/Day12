@@ -1,0 +1,16 @@
+<h1>Show Patient</h1> 
+<br>
+<strong>Name:</strong> 
+<%= @patient.first_name %>
+<%= @patient.last_name %>
+<br>
+<strong>Gender:</strong>
+<%= @patient.gender %>
+<br>
+<strong>Date of Birth:</strong>  
+<%= @patient.date_of_birth %>
+<br>
+<strong>Description:</strong>
+<%= @hospital.description %>
+<br>
+<%= link_to 'Back', hospitals_path %>

@@ -1,7 +1,7 @@
 class Patient < ActiveRecord::Base
 
   belongs_to :hospital
-  has_many :medication
+  has_many :medications, dependent: :destroy
 
   BLOOD_TYPE_OPTIONS= [
     ["A", "a"],

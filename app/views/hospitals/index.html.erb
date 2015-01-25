@@ -1,19 +1,22 @@
-<%= link_to 'Root', root_path %>
-<h1>INDEX Listing Hospitals</h1>
+<%= link_to 'Welcome', root_path %>
+<h1> Hospitals</h1>
+<%= link_to "Create Hospital", new_hospital_path %>
 
 <% @hospitals.each do |hospital| %>
 
-  <%= hospital.name %>
-  <%= hospital.description %>
+  <h2><%= link_to hospital.name, hospital_path(hospital) %><h2>
+  
   <%= hospital.address %>
-  <%= hospital.city %>
+  <br>
+  <%= hospital.city %>,
   <%= hospital.state %>
-  <%= hospital.zip %>
-<br>
-  <%= link_to 'Show', hospital_path(hospital) %>
-  <%= link_to 'Edit', edit_hospital_path(hospital) %>
-  <%= link_to 'Destroy', hospital, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <div><%= hospital.zip %></div>
+  
   <br>
-  <% end %>
-  <br>
-  <%= link_to 'New Hospital', new_hospital_path %>
+ 
+  <h3><%= link_to "Edit", edit_hospital_path(hospital) %>
+  
+  <%= link_to "delete", hospital_path(hospital), method: :delete %>
+  <h3><br>
+<% end %>
+  

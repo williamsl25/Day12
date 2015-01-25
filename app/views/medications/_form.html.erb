@@ -1,0 +1,20 @@
+<h1>Medication form</h1>
+
+<%= form_for [@hospital, @patient, @medication] do |f| %>
+  
+<%= f.label :name %>
+<%= f.text_field :name %>
+<br>
+<%= f.label :uses %>
+<%= text_area :uses %>
+<br>
+<%= f.label :dosage %>
+<%= text_field :dosage %>
+<br>
+<%= f.label :side_effects %>
+<%= f.text_area :side_effects %>
+
+<%= f.submit %>
+<% end %>
+
+
