@@ -14,7 +14,8 @@ class PatientsController < ApplicationController
   def new
     @patient = Patient.new
     @hospital = Hospital.find params[:hospital_id]
-  end
+    
+end
 
   # def create
   #   @patient = Patient.create patient_params
@@ -27,7 +28,7 @@ class PatientsController < ApplicationController
     @patient = @hospital.patients.new(patient_params)
     
     if @patient.save
-      flash[:notice] = 'Patient was successfully created.'
+      flash[:notice] = "Patient was successfully created."
       redirect_to hospital_path(@hospital)
     else
       flash[:error] = "Patient was NOT saved."
@@ -38,6 +39,7 @@ class PatientsController < ApplicationController
 
   def edit
     @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
   end
 
   def update
@@ -57,11 +59,17 @@ class PatientsController < ApplicationController
 
   def destroy
     @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
     @patient.delete
-    redirect_to hospitals_path
+    # redirect_to hospitals_path
+    redirect_to hospital_patients_path(@hospital)
   end
 
-  private 
+  private
+   
+  def find_patient
+    @patient = Patient.find params[:id]
+  end
 
   def patient_params
     params.require(:patient).permit(
@@ -75,4 +83,5 @@ class PatientsController < ApplicationController
   end
 end
 
+# where do you put the .strftime(%M/%d/%Y) ?? to change the date format
 

@@ -1,5 +1,5 @@
 class MedicationsController < ApplicationController
-end
+
 
   def index
     @medications = Medication.all
@@ -19,8 +19,8 @@ end
   end
 
   def create
-    @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:patient_id]
+    @hospital = Hospital.find params[:hospital_id]
     @medication = @patient.medications.new(medication_params)
       
       if @medication.save
@@ -31,9 +31,8 @@ end
         render :new 
       end
     end
-  end
-
-
+    
+    
   def edit
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:patient_id]
@@ -62,6 +61,12 @@ end
   private
 
   def medication_params
-    params.require(:medication).permit(:name)
+    params.require(:medication).permit(
+      :name,
+      :uses,
+      :dosage,
+      :side_effects
+      )
   end
+
 end

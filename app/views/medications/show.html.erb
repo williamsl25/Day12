@@ -11,6 +11,15 @@
 <%= @patient.date_of_birth %>
 <br>
 <strong>Description:</strong>
-<%= @hospital.description %>
+<%= @patient.description %>
+<br>
+
+
+<%= link_to medication.name, hospital_patient_medication_path(@hospital, @patient, @medication) %>
+|
+<%= link_to "Edit", edit_hospital_patient_medication_path(@hospital, @patient, @medication) %>
+|
+<%= link_to "Delete", hospital_patient_medication_path(@hospital, @patient, @medication), method: :delete %>
 <br>
 <%= link_to 'Back', hospitals_path %>
+

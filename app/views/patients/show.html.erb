@@ -1,25 +1,42 @@
-<h1>Patient</h1>
-<br>
-<%= link_to "Welcome", root_path %>
-<%= link_to hospital.name, hospital_path(hospital) %>
 <div>
-  <strong><%= patient.first_name %></strong>
-  <strong><%= patient.last_name %></strong>
+<h2><%= link_to "Welcome", root_path %> 
+|
+<%= link_to @hospital.name, hospital_path(@hospital) %></h2>
+</div>
+<div>
+  <h2><%= @patient.first_name %>
+  <strong><%= @patient.last_name %></strong>
   <br>
-  <strong><%= patient.date_of_birth %></strong>
-  <strong><%= patient.gender %></strong>
-  <strong><%= patient.description%></strong>
-</div>  
+  <strong>Date of Birth: <%= @patient.date_of_birth.strftime("%m/%d/%Y") %></strong>
+  <br>
+  <strong>Gender: <%= @patient.gender %></strong>
+  <br>
+  <strong>Reason for visit:  <%= @patient.description%></strong></h2>
+</div> 
 
-<%= @patient.medications.each do |medication| %>
-  
-<%= link_to medication.name, hospital_patient_medication_path(@hospital, @patient, medication) %>
-|
-<%= link_to "Edit", edit_hospital_patient_medication_path(@hospital, @patient, medication) %>
-|
-<%= link_to "Delete", hospital_patient_medication_path(@hospital, @patient, medication), method: :delete %>
+<h2><%= link_to "Add Medication", new_hospital_patient_medication_path(@hospital, @patient) %></h2>  
 
+<% @patient.medications.each do |medication| %>
+<ul>
+  <li>
+      <div><strong><%= medication.name %></strong></div>
+      
+      <strong>Used for: </strong>
+        <div><%= medication.uses %></div>
+      
+      <strong>Dosage: </strong>
+        <div><%= medication.dosage %></div>
+
+      <strong>Side Effects: </strong>
+        <div><%= medication.side_effects %></div>
+  </li>
+</ul>
+  <%= link_to "Edit", edit_hospital_patient_medication_path(@hospital, @patient, medication) %>
+|
+  <%= link_to "Delete", hospital_patient_medication_path(@hospital, @patient, medication), method: :delete %>
+<br>
 <br>
 <% end %>
-<%= link_to 'Back', hospitals_path %>
+
+<%= link_to 'Back to Hospitals List', hospitals_path %>
 

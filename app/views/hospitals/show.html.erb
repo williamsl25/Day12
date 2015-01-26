@@ -1,7 +1,6 @@
-<h1>Hospital</h1>
-<br>
+
 <div>
-  <h2><%= @hospital.name %></h2>
+  <h1><%= @hospital.name %></h1>
 
   <h3><strong><%= @hospital.address %></strong>
   <div><strong><%= @hospital.city %>,</strong>
@@ -25,14 +24,17 @@
   
       <%= link_to patient.last_name, hospital_patient_path(@hospital, patient)%>
       <br>
-      <%= patient.date_of_birth %>
+      <%= patient.date_of_birth.strftime("%m/%d/%Y") %>
       <br> 
+
+
       <%= patient.description %>
     </li>
     <div><%= link_to "Edit", edit_hospital_patient_path(@hospital, patient)%>
       |
         <%= link_to "Delete", hospital_patient_path(@hospital, patient), method: :delete %>
     </div>
+    <br>
   <% end %>
   </ul>
 </div>

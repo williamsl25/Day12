@@ -1,20 +1,32 @@
 <h1>Medication form</h1>
-
+ 
+<% @medication.inspect %> 
 <%= form_for [@hospital, @patient, @medication] do |f| %>
   
-<%= f.label :name %>
+<% if @medication.errors.any? %>
+    <% @pmedication.errors.full_messages.each do |message| %>
+      <%= message %>
+      <br>
+    <% end %>
+ <% end %>
+
+<strong><%= f.label :name %></strong>
 <%= f.text_field :name %>
 <br>
-<%= f.label :uses %>
-<%= text_area :uses %>
 <br>
-<%= f.label :dosage %>
-<%= text_field :dosage %>
+<strong><%= f.label :uses %></strong>
+<%= f.text_field :uses %>
 <br>
-<%= f.label :side_effects %>
+<br>
+<strong><%= f.label :dosage%></strong>   
+<%= f.text_field :dosage %>
+<br>
+<br>
+<strong><%= f.label :side_effects %></strong>  
 <%= f.text_area :side_effects %>
-
+<br>
 <%= f.submit %>
+
 <% end %>
 
 
