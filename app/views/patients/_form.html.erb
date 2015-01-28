@@ -41,10 +41,18 @@
     options_for_select( Patient::BLOOD_TYPE_OPTIONS, f.object.blood_type), include_blank: "---select---" %>
 <br>
 <br>
+
+
+<% @medications.each do |medication| %>
+  <%= check_box_tag 'patient[medication_ids][]', medication.id, @patient.medications.include?(medication) %>
+      <%= medication.name %>
+    <% end %>
+  <br>
 <%= f.submit %>
+<% end %>
 |
 <%= link_to "Cancel", hospital_path(@hospital) %>
-<% end %>
+
 
 
 

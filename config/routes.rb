@@ -1,9 +1,24 @@
 Rails.application.routes.draw do
   resources :hospitals do
+    # member requires ids
+    member do
+      post :create_doctor
+      delete :delete_doctor
+    end
+# creates a custom route inside the hospitals controller
    resources :patients do
+    member do
+      post :create_doctor
+      delete :delete_doctor
+    end
+# creates a custom route inside the patients controller
    resources :medications 
-  end
-  end
+   end
+ end
+  
+    # collection does not require ids
+
+
     
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

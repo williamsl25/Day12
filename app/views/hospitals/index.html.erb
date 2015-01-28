@@ -1,22 +1,18 @@
-<%= link_to 'Welcome', root_path %>
-<h1> Hospitals</h1>
-<%= link_to "Create Hospital", new_hospital_path %>
-
-<% @hospitals.each do |hospital| %>
-
-  <h2><%= link_to hospital.name, hospital_path(hospital) %><h2>
+<!-- url= localhost:3000/hospitals -->
+<div><h3><%= link_to 'Welcome', root_path %></h3></div>  
   
-  <%= hospital.address %>
-  <br>
-  <%= hospital.city %>,
-  <%= hospital.state %>
+<div>
+  <% @hospitals.each do |hospital| %>
+  <h2><%= link_to hospital.name, hospital_path(hospital) %></h2>
+  <div><%= hospital.address %></div>
+  <div><%= hospital.city %>,<%= hospital.state %></div>
   <div><%= hospital.zip %></div>
-  
-  <br>
- 
-  <h3><%= link_to "Edit", edit_hospital_path(hospital) %>
-  
+</div>
+<br>
+<div><%= link_to "Edit", edit_hospital_path(hospital) %>
   <%= link_to "delete", hospital_path(hospital), method: :delete %>
-  <h3><br>
+</div>
+<br>
 <% end %>
+<div><%= link_to "Create Hospital", new_hospital_path %></div>
   

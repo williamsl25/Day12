@@ -4,7 +4,7 @@
 <%= form_for [@hospital, @patient, @medication] do |f| %>
   
 <% if @medication.errors.any? %>
-    <% @pmedication.errors.full_messages.each do |message| %>
+    <% @medication.errors.full_messages.each do |message| %>
       <%= message %>
       <br>
     <% end %>
@@ -25,8 +25,17 @@
 <strong><%= f.label :side_effects %></strong>  
 <%= f.text_area :side_effects %>
 <br>
+<br>
+  <% @patients.each do |patient| %>
+    <%= check_box_tag 'medication[patient_ids][]', patient.id, @medication.patients.include?(patient) %>
+    <%= patient.last_name %>
+    <br>
+<% end %>
 <%= f.submit %>
 
 <% end %>
+
+
+
 
 

@@ -7,6 +7,7 @@ class HospitalsController < ApplicationController
   def show
     @hospital = Hospital.find params[:id]
     @patients = @hospital.patients
+    @doctor = @hospital.doctors.new
   end
 
 
@@ -28,6 +29,19 @@ def create
       flash[:error] = "Hospital was NOT saved"
       render :new
     end
+  end
+
+  def create_doctor
+    @hospital = Hospital.find params[:id]
+    @hospital.doctors.create doctor_params
+    redirect_to hospital_path(@hospital)
+  end
+
+  def delete_doctor
+    @hospital = Hospital.find params[:id]
+    @doctor = Doctor.find params[:doctor_id]
+    @doctor.delete
+    redirect_to hospital_path
   end
 
   def edit
@@ -58,68 +72,12 @@ def create
       :phone
       )
   end
+
+  def doctor_params
+    params.require(:doctor).permit(:doctor_name)
+  end
 end
-# def hospital_params
-# #     params.require(:hospital).permit(
-# #       :name,
-# #       :address,
-# #       :city,
-# #       :state,
-# #       :zip
-# #       )
-# #   end
 
 
   
-#   def index
-#     @hospitals = Hospital.all
-#   end
-
-#   def show
-#     @patients = @hospital.patients
-#   end
-
-#   def new
-#     @hospital = Hospital.new
-#   end
-
-#   def edit
-#   end
-
-#   def create
-#     @hospital = Hospital.new(hospital_params)
-#     if @hospital.save
-#       flash[:notice] = 'Hospital was successfully created'
-#       redirect_to hospitals_path
-#     else
-#       flash[:error] = "Hospital was NOT saved"
-#       render :new
-#     end
-#   end
-
-#   def update
-#   end
-
-#   def destroy
-#     @hospital = Hospital.find params[:id]
-#     @hospital.delete
-#     redirect_to hospitals_path
-#   end
-
-#   private
-#   def set_hospital
-#     @hospital = Hospital.find(params[:id])
-#   end
-
-#   def hospital_params
-#     params.require(:hospital).permit(
-#       :name,
-#       :address,
-#       :city,
-#       :state,
-#       :zip
-#       )
-#   end
-
-
 

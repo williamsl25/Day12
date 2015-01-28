@@ -9,24 +9,23 @@ class PatientsController < ApplicationController
     @patients = Patient.all
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:id]
+    @medication = @patient.medications
+    @doctor = @patient.doctors.new
   end
 
   def new
     @patient = Patient.new
     @hospital = Hospital.find params[:hospital_id]
-    
-end
-
-  # def create
-  #   @patient = Patient.create patient_params
-  #   redirect_to patients_path
-
-  # end
+    # added @medication = Medication.all 1/26 for join table
+    @medications = Medication.all
+  end
 
   def create
     @hospital = Hospital.find params[:hospital_id]
     @patient = @hospital.patients.new(patient_params)
-    
+    # added @medication = Medication.all 1/26 for join table
+    @medications = Medication.all
+
     if @patient.save
       flash[:notice] = "Patient was successfully created."
       redirect_to hospital_path(@hospital)
@@ -34,34 +33,46 @@ end
       flash[:error] = "Patient was NOT saved."
       render :new
     end
-  
   end
+  def create_doctor
+    @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
+    @patient.doctors.create doctor_params
+    redirect_to hospital_patient_path(@hospital, @patient)
+  end
+
+  def delete_doctor
+    @hospital = Hospital.find params[:hospital_id]
+    @patient = @hospital.patients.find params[:id]
+    @doctor = @patient.doctors.find params[:doctor_id]
+    @doctor.delete
+    redirect_to hospital_patient_path(@hospital, @patient)
+  end
+    
 
   def edit
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:id]
+    # added for join table
+    @medications = Medication.all
   end
 
   def update
+    # added for join table
+    @medications = Medication.all
     @hospital = Hospital.find params[:hospital_id]
-    if patient.update_attributes patient_params
-      redirect_to hospitals_path
+    @patient = Patient.find params[:id]
+    if @patient.update_attributes patient_params
+      redirect_to hospital_patient_path(@hospital, @patient)
     else 
       render :new
     end
   end
 
-  # def update
-    # @patient = Patient.find params[:id]
-    # @patient.update_attributes patient_params
-    # redirect_to patients_path
-  # end
-
   def destroy
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:id]
     @patient.delete
-    # redirect_to hospitals_path
     redirect_to hospital_patients_path(@hospital)
   end
 
@@ -78,9 +89,15 @@ end
       :date_of_birth,
       :gender,
       :description,
-      :blood_type
+      :blood_type,
+      medication_ids: []
     )
   end
+
+  def doctor_params
+    params.require(:doctor).permit(:doctor_name)  
+  end
+
 end
 
 # where do you put the .strftime(%M/%d/%Y) ?? to change the date format

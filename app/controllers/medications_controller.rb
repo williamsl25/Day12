@@ -8,20 +8,24 @@ class MedicationsController < ApplicationController
 
   def show
     @patient = Patient.find params[:patient_id]
-    @hospital = Hospital.find params[:hospital_id]
+    # @hospital = Hospital.find params[:hospital_id]
     @medication = Medication.find params[:id]
+    @patients = @medication.patients
   end
 
   def new
     @medication = Medication.new
+    @patients = Patient.all 
     @patient = Patient.find params[:patient_id]
     @hospital = Hospital.find params[:hospital_id]
+    
   end
 
+
   def create
-    @patient = Patient.find params[:patient_id]
-    @hospital = Hospital.find params[:hospital_id]
-    @medication = @patient.medications.new(medication_params)
+     @hospital = Hospital.find params[:hospital_id]
+     @patient = Patient.find params[:patient_id]
+     @medication = @patient.medications.new(medication_params)
       
       if @medication.save
         flash[:notice] = 'Medication was successfully perscribed.'
@@ -36,7 +40,9 @@ class MedicationsController < ApplicationController
   def edit
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:patient_id]
-    @medication = Medication.find params[:id]
+    @medication = Medication.find params [:id]
+    @patients = Patients.all
+    
   end
 
   def update
@@ -48,6 +54,9 @@ class MedicationsController < ApplicationController
     else
       render :edit
     end
+    
+    # @medication.update medication_params
+    # redirect_to medications_path
   end
 
   def destroy
@@ -56,6 +65,7 @@ class MedicationsController < ApplicationController
     @medication = Medication.find params[:id]
     @medication.delete
     redirect_to hospital_patient_path(@hospital, @patient)
+  
   end
 
   private
@@ -65,7 +75,8 @@ class MedicationsController < ApplicationController
       :name,
       :uses,
       :dosage,
-      :side_effects
+      :side_effects,
+      patient_ids: []
       )
   end
 

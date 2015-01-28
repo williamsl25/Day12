@@ -1,7 +1,11 @@
 class Patient < ActiveRecord::Base
 
   belongs_to :hospital
-  has_many :medications, dependent: :destroy
+  # has_many :medications, dependent: :destroy
+  has_many :patient_medications
+  has_many :medications, through: :patient_medications
+
+  has_many :doctors, as: :doctorable
 
   BLOOD_TYPE_OPTIONS= [
     ["A", "a"],

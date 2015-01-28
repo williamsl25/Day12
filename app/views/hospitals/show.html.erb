@@ -17,27 +17,46 @@
   
   <%= link_to "Add Patient", new_hospital_patient_path(@hospital) %>
   <ul>
+    
     <% @patients.each do |patient| %>
     <li>
-
-      <%= link_to patient.first_name, hospital_patient_path(@hospital, patient)%>
+      <h3><%= link_to patient.first_name, hospital_patient_path(@hospital, patient)%>
   
-      <%= link_to patient.last_name, hospital_patient_path(@hospital, patient)%>
-      <br>
-      <%= patient.date_of_birth.strftime("%m/%d/%Y") %>
+      <%= link_to patient.last_name, hospital_patient_path(@hospital, patient)%></h3> 
+      <%= patient.date_of_birth.strftime("%m/%d/%Y") %> 
       <br> 
-
-
       <%= patient.description %>
     </li>
+    <br>
     <div><%= link_to "Edit", edit_hospital_patient_path(@hospital, patient)%>
       |
         <%= link_to "Delete", hospital_patient_path(@hospital, patient), method: :delete %>
     </div>
-    <br>
   <% end %>
   </ul>
 </div>
 
+<h3>Doctors associated with hospital:</h3>
+<!-- will show the doctor that goes with that hospital -->
+<% @hospital.doctors.each do |doctor| %>
+  <%= doctor.doctor_name %>
+  <br>
+<% end %>
 
+<%= form_for @doctor, url: create_doctor_hospital_path(@hospital) do |f| %>
+  <!-- create_comment_restaurant -->
+  <%= f.label :doctor_name %>
+  <%= f.text_field :doctor_name %>
+  <br>
+  <%= f.submit "submit new doctor" %>
+<% end %>
+<br>
+<% @hospital.doctors.each do |doctor| %>
+  <% if doctor.id %>
+     <%= doctor.doctor_name %>
+     <%= link_to "Delete Doctor", delete_doctor_hospital_path(@hospital, doctor_id: doctor.id), method: :delete  %>
+  <% end %>
+<% end %>
+
+<br>
 <%= link_to 'Back', hospitals_path %>
