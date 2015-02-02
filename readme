@@ -1,0 +1,35 @@
+<a class="navbar-brand" href="http://localhost:3000/">Welcome</a>
+<li><a href="http://localhost:3000/hospitals">Hospitals</a>
+
+
+# CRUD Methods
+
+index - GET
+show - GET
+new - GET
+create - POST
+edit - GET
+update - PATCH
+destroy - DELETE
+
+$ rails g migration add_opening_and_owner_to_restaurants opening:date owner:string
+$ rails g migration add_restaurant_id_to_foods restaurant_id:integer
+$ rails console
+
+
+# localhost:3000/assets/funny_images/sup_foo.jpg
+# localhost:3000/assets/magic.jpg
+# localhost:3000/assets/welcome.scss
+
+
+  <div class="container">
+    <% if flash[:notice] %>
+      <p id="notice"><%= flash[:notice] %></p>
+    <% end %>
+
+    <% if flash[:error] %>
+      <p id="error"><%= flash[:error] %></p>
+    <% end %>
+
+    <%= yield %>
+  </div> 

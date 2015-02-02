@@ -1,0 +1,18 @@
+/ url= localhost:3000/hospitals
+%div
+  %h3= link_to 'Welcome', root_path
+%div
+  - @hospitals.each do |hospital|
+    %h2= link_to hospital.name, hospital_path(hospital)
+    %div= hospital.address
+    %div
+      = hospital.city
+      ,#{hospital.state}
+    %div= hospital.zip
+  
+    %div
+      = link_to "Edit", edit_hospital_path(hospital)
+      |
+      = link_to "delete", hospital_path(hospital), method: :delete
+%br    
+  %div= link_to "Create Hospital", new_hospital_path

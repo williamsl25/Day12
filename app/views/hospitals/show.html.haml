@@ -1,0 +1,97 @@
+%div
+  %h1= @hospital.name
+  %h3
+    %strong= @hospital.address
+    %div
+      %strong
+        = @hospital.city
+        ,
+      %strong= @hospital.state
+    %strong= @hospital.zip
+    %div
+      %strong= @hospital.phone
+%br
+  %div
+    = link_to "Add Patient", new_hospital_patient_path(@hospital)
+    %ul
+      - @patients.each do |patient|
+        %h4
+          .col-md-4
+            %h3
+              .text-center
+                = link_to patient.first_name, hospital_patient_path(@hospital, patient)
+                = link_to patient.last_name, hospital_patient_path(@hospital, patient)
+            .col-md-4
+              .text-center    
+                = patient.date_of_birth.strftime("%m/%d/%Y")
+            .col-md-4
+              .text-center
+                = patient.description
+
+          .col-md-4
+            .text-center
+              .workflow
+                %br
+                  = patient.workflow_state.upcase
+            %br
+
+              .col-md-4
+                .text-center
+                  = link_to "Edit", edit_hospital_patient_path(@hospital, patient)
+                  |
+                  = link_to "Delete", hospital_patient_path(@hospital, patient), method: :delete
+                  |
+                  
+                  - if patient.waiting?
+                    = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Leaving", leave_hospital_patient_path(@hospital, patient), method: :patch
+                  - if patient.checkup?
+                    = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
+                  -if patient.xray?
+                    = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
+                  -if patient.surgery?
+                    = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                    = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
+                    |
+                  -if patient.paying?
+                    = link_to "Leaving", leave_hospital_patient_path(@hospital, patient), method: :patch
+
+  %h3 Doctors associated with hospital:
+  / will show the doctor that goes with that hospital
+  = form_for @doctor, url: create_doctor_hospital_path(@hospital) do |f|
+    / create_comment_restaurant
+    - @hospital.doctors.each do |doctor|
+      - if doctor.id
+        = doctor.doctor_name
+        = link_to "Delete Doctor", delete_doctor_hospital_path(@hospital, doctor_id: doctor.id), method: :delete
+    %br
+      %br
+        = f.label :doctor_name
+        = f.text_field :doctor_name
+        %br
+          %br
+            = f.submit "submit new doctor"
+  %br
+    = link_to 'Back', hospitals_path

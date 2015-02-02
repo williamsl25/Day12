@@ -10,6 +10,17 @@ Rails.application.routes.draw do
     member do
       post :create_doctor
       delete :delete_doctor
+      patch :wait
+      patch :checkup
+      patch :xray
+      patch :surgery
+      patch :pay
+      patch :leave
+# must define each of these routes in the patients controller
+# patch = updates the data
+# get = displays the data
+# post = creates data
+
     end
 # creates a custom route inside the patients controller
    resources :medications 

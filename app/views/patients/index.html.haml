@@ -1,0 +1,22 @@
+%h1 Patient List
+= link_to "Welcome", hospitals_path
+%br
+  = link_to "Create Patient", new_hospital_patient_path(@hospital)
+  %ul
+    - @patients.each do |patient|
+      %li
+        = link_to patient.first_name, hospital_patient_path(@hospital, patient)
+        = link_to patient.last_name, hospital_patient_path(@hospital, patient)
+        %br
+          = patient.date_of_birth.strftime("%m/%d/%Y")
+          %br
+            = patient.gender
+            %br
+              = patient.description
+              
+            = link_to "Edit", edit_hospital_patient_path(@hospital, patient)
+            |
+            = link_to "Delete", hospital_patient_path(@hospital, patient), method: :delete
+            |
+            = link_to "Back", hospital_patients_path
+            

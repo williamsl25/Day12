@@ -1,0 +1,35 @@
+%h1 Hospital form
+- @hospital.inspect
+%br
+  = form_for @hospital do |f|
+    - if @hospital.errors.any?
+      - @hospital.errors.full_messages.each do |message|
+        = message
+    = f.label :name
+    = f.text_field :name
+    %br
+      %br
+        = f.label :address
+        = f.text_field :address
+        %br
+          %br
+            = f.label :city
+            = f.text_field :city
+            %br
+              %br
+                = f.label :state
+                = f.select :state,                                                                             |
+                  options_for_select( Hospital:: STATE_OPTIONS, f.object.state), include_blank: "---select---" |
+                %br
+                  %br
+                    = f.label :zip
+                    = f.text_field :zip
+                    %br
+                      %br
+                        = f.label :phone
+                        = f.text_field :phone
+                        %br
+                          %br
+                            = f.submit
+                            |
+                            \#{link_to "Cancel", root_path}

@@ -4,7 +4,6 @@ class Patient < ActiveRecord::Base
   # has_many :medications, dependent: :destroy
   has_many :patient_medications
   has_many :medications, through: :patient_medications
-
   has_many :doctors, as: :doctorable
 
   BLOOD_TYPE_OPTIONS= [
@@ -37,6 +36,39 @@ class Patient < ActiveRecord::Base
     end
   end
   
+  include Workflow
+    workflow do 
+      state :waiting do
+        event :checkup, transitions_to: :checkup
+        event :xray, transitions_to: :xray
+        event :surgery, transitions_to: :surgery
+        event :leave, transitions_to: :leaving 
+      end
+      state :checkup do
+        event :wait, transitions_to: :waiting
+        event :xray, transitions_to: :xray
+        event :surgery, transitions_to: :surgery
+        event :pay, transitions_to: :paying
+      end
+      state :xray do
+        event :wait, transitions_to: :waiting
+        event :checkup, transitions_to: :checkup
+        event :surgery, transitions_to: :surgery
+        event :pay, transitions_to: :paying
+      end
+      state :surgery do
+        event :wait, transitions_to: :waiting
+        event :xray, transitions_to: :xray
+        event :checkup, transitions_to: :checkup
+        event :pay, transitions_to: :paying
+      end
+      state :paying do
+        event :leave, transitions_to: :leaving
+      end
+
+      state :leaving 
+      
+    end
 end
 
   

@@ -1,4 +1,18 @@
 class PatientsController < ApplicationController
+# list only what excepts an id
+  before_action :set_patient, only: [
+    :show,
+    :edit,
+    :update,
+    :destroy,
+    :wait,
+    :checkup,
+    :xray,
+    :surgery,
+    :pay,
+    :leave
+  ]
+
   def index
     @patients = Patient.all
     @hospital = Hospital.find params[:hospital_id]
@@ -49,7 +63,6 @@ class PatientsController < ApplicationController
     redirect_to hospital_patient_path(@hospital, @patient)
   end
     
-
   def edit
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:id]
@@ -76,7 +89,37 @@ class PatientsController < ApplicationController
     redirect_to hospital_patients_path(@hospital)
   end
 
-  private
+  def wait
+    @patient.wait!
+    redirect_to hospital_patients_path
+  end
+
+  def checkup
+    @patient.checkup!
+    redirect_to hospital_patients_path
+  end
+
+  def xray
+    @patient.xray!
+    redirect_to hospital_patients_path
+  end
+
+  def surgery
+    @patient.surgery!
+    redirect_to hospital_patients_path
+  end
+
+  def pay
+    @patient.paybr!
+    redirect_to hospital_patients_path
+  end
+
+  def leave
+    @patient.leave!
+    redirect_to hospital_patients_path
+  end
+
+private
    
   def find_patient
     @patient = Patient.find params[:id]
@@ -98,7 +141,9 @@ class PatientsController < ApplicationController
     params.require(:doctor).permit(:doctor_name)  
   end
 
-end
+  def set_patient
+    @patient = Patient.find(params[:id])
+  end
 
-# where do you put the .strftime(%M/%d/%Y) ?? to change the date format
+end
 

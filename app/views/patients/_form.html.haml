@@ -1,0 +1,44 @@
+%h1 Form
+- @patient.inspect
+= form_for [@hospital, @patient] do |f|
+  - if @patient.errors.any?
+    - @patient.errors.full_messages.each do |message|
+      = message
+      %br
+  = f.label :first_name
+  = f.text_field :first_name
+  %br
+    %br
+      = f.label :last_name
+      = f.text_field :last_name
+      %br
+        %br
+          = f.label :date_of_birth
+          = f.date_select :date_of_birth, :start_year => Date.today.year - 100, :end_year => Date.today.year
+          %br
+            / how do you include patient must be 10 or older?
+            %br
+              = f.label :gender
+              = f.radio_button :gender, 'male'
+              = f.label(:gender, "male")
+              = f.radio_button(:gender, 'female')
+              = f.label(:gender, "female")
+              %br
+                / gender always gives error message- how do you include empty option and save patient
+                %br
+                  = f.label :description
+                  = f.text_area :description
+                  %br
+                    %br
+                      = f.label :blood_type
+                      = f.select :blood_type,                                                                                |
+                        options_for_select( Patient::BLOOD_TYPE_OPTIONS, f.object.blood_type), include_blank: "---select---" |
+                      %br
+                        %br
+                          - @medications.each do |medication|
+                            = check_box_tag 'patient[medication_ids][]', medication.id, @patient.medications.include?(medication)
+                            = medication.name
+                          %br
+                            = f.submit
+|
+\#{link_to "Cancel", hospital_path(@hospital)}
