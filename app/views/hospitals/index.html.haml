@@ -1,6 +1,12 @@
 / url= localhost:3000/hospitals
 %div
   %h3= link_to 'Welcome', root_path
+= form_tag hospitals_path, method: :get, class: "navbar-form", role: "search" do
+  .input-group
+    = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search"
+    .input-group-btn
+      %button.btn.btn-default{:style => "width:40px;"}
+        %i.glyphicon.glyphicon-search
 %div
   - @hospitals.each do |hospital|
     %h2= link_to hospital.name, hospital_path(hospital)

@@ -13,29 +13,38 @@
 %br
   %div
     = link_to "Add Patient", new_hospital_patient_path(@hospital)
+.col-md-12.col-lg-12
+  %h3
+    .text-left
+      = form_tag hospital_path, method: :get, class: "navbar-form", role: "search" do
+        .input-group
+          = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search"
+          .input-group-btn
+            %button.btn.btn-default{:style => "width:40px;"}
+              %i.glyphicon.glyphicon-search
     %ul
       - @patients.each do |patient|
         %h4
-          .col-md-4
+          .col-md-12.col-lg-12
             %h3
               .text-center
                 = link_to patient.first_name, hospital_patient_path(@hospital, patient)
                 = link_to patient.last_name, hospital_patient_path(@hospital, patient)
-            .col-md-4
+            .col-md-12.col-lg-12
               .text-center    
                 = patient.date_of_birth.strftime("%m/%d/%Y")
-            .col-md-4
+            .col-md-12.col-lg-12
               .text-center
                 = patient.description
 
-          .col-md-4
+          .col-md-12.col-lg-12
             .text-center
               .workflow
                 %br
-                  = patient.workflow_state.upcase
+                  = patient.workflow_state
             %br
 
-              .col-md-4
+              .col-md-12.col-lg-12
                 .text-center
                   = link_to "Edit", edit_hospital_patient_path(@hospital, patient)
                   |
@@ -74,7 +83,7 @@
                     = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
                     |
                     = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
-                    |
+                  
                   -if patient.paying?
                     = link_to "Leaving", leave_hospital_patient_path(@hospital, patient), method: :patch
 
@@ -91,7 +100,7 @@
         = f.label :doctor_name
         = f.text_field :doctor_name
         %br
-          %br
-            = f.submit "submit new doctor"
-  %br
+         
+          = f.submit "submit new doctor"
+ 
     = link_to 'Back', hospitals_path

@@ -14,20 +14,29 @@
   %div
     Reason for visit:  #{@patient.description}
 %div
-  %h2 Medications:
-  - @patient.medications.each do |medication|
-    %ul
-      %li
-        %h3= medication.name
-        %div
-          %strong Used for:
-          = medication.uses
-        %div
-          %strong Dosage:
-          = medication.dosage
-        %div
-          %strong Side Effects:
-          = medication.side_effects
+  %h2 
+    Medications:
+  .text-left
+    = form_tag hospital_patient_path, method: :get, class: "navbar-form", role: "search" do
+      .input-group
+        = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search"
+        .input-group-btn
+          %button.btn.btn-default{:style => "width:40px;"}
+            %i.glyphicon.glyphicon-search
+  %div
+    - @medications.each do |medication|
+      %ul
+        %li
+          %h3= medication.name
+          %div
+            %strong Used for:
+            = medication.uses
+          %div
+            %strong Dosage:
+            = medication.dosage
+          %div
+            %strong Side Effects:
+            = medication.side_effects
   %div
     = link_to "Edit Medication", edit_hospital_patient_path(@hospital, @patient)
   %h3 Doctors associated with patient:

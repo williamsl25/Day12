@@ -1,12 +1,21 @@
 class HospitalsController < ApplicationController
   # before_action :set_hospital, only: [:show, :edit, :update, :destroy]
   def index
-    @hospitals = Hospital.all
+    @hospitals = if !params[:q].blank?
+      Hospital.where("name LIKE ? OR address LIKE ? OR city LIKE ? OR state LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%")
+    else
+      @hospitals = Hospital.all
+    end
   end
 
+  
   def show
+    @patients = if !params[:q].blank?
+      Patient.where("first_name LIKE ? OR last_name LIKE ? OR date_of_birth LIKE ? OR description LIKE ? OR gender LIKE ? OR blood_type LIKE ? OR workflow_state LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%")
+    else
+      Patient.all
+    end
     @hospital = Hospital.find params[:id]
-    @patients = @hospital.patients
     @doctor = @hospital.doctors.new
   end
 
@@ -20,7 +29,7 @@ class HospitalsController < ApplicationController
   #   redirect_to hospitals_path
   # end
 
-def create
+  def create
     @hospital = Hospital.create hospital_params
     if @hospital.save
       flash[:notice] = 'Hospital was successfully created'
@@ -71,6 +80,10 @@ def create
       :zip,
       :phone
       )
+  end
+  
+  def find_patient
+    @patient = Patient.find params[:id]
   end
 
   def doctor_params

@@ -1,0 +1,44 @@
+!!!
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "", :name => "author"}
+    %title Day12
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+    %link{:href => "//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %script{:src => "//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"}
+
+  %body
+    / Fixed navbar
+    %nav.navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %button
+            %a.btn.btn-default{:href => "http://localhost:3000/"} Welcome
+        #navbar.navbar-collapse.collapse
+          %ul.nav.navbar-nav
+            %li
+              %button
+                %a.btn.btn-default{:href => "#contact"} Contact
+            %li
+              %button
+                %a.btn.btn-default{:href => "http://localhost:3000/hospitals"} Hospitals
+        / /.nav-collapse
+    .jumbotron
+      .container
+        %h1 Ironyard Hospital System
+        %p This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
+        %p
+          %a.btn.btn-primary.btn-lg{:href => "#", :role => "button"} Learn more &raquo;
+    = yield
