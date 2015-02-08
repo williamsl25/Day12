@@ -1,0 +1,29 @@
+%h1 Medication form
+- @medication.inspect
+= form_for [@hospital, @patient, @medication] do |f|
+  - if @medication.errors.any?
+    - @medication.errors.full_messages.each do |message|
+      = message
+      %br
+  %strong= f.label :name
+  = f.text_field :name, class: "form-control validate-name"
+  %br
+    %br
+      %strong= f.label :uses
+      = f.text_field :uses
+      %br
+        %br
+          %strong= f.label :dosage
+          = f.text_field :dosage
+          %br
+            %br
+              %strong= f.label :side_effects
+              = f.text_area :side_effects
+              %br
+                %br
+                  - @patients.each do |patient|
+                    = check_box_tag 'medication[patient_ids][]', patient.id, @medication.patients.include?(patient)
+                    = patient.last_name
+                    %br
+                  
+                  = f.submit "Submit", class: "submit_btn", disabled: 'disabled'

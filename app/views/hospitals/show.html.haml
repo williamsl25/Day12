@@ -14,7 +14,7 @@
   %div
     = link_to "Add Patient", new_hospital_patient_path(@hospital)
 .col-md-12.col-lg-12
-  %h3
+  %div
     .text-left
       = form_tag hospital_path, method: :get, class: "navbar-form", role: "search" do
         .input-group
@@ -24,9 +24,9 @@
               %i.glyphicon.glyphicon-search
     %ul
       - @patients.each do |patient|
-        %h4
+        %div
           .col-md-12.col-lg-12
-            %h3
+            %div
               .text-center
                 = link_to patient.first_name, hospital_patient_path(@hospital, patient)
                 = link_to patient.last_name, hospital_patient_path(@hospital, patient)
@@ -40,10 +40,8 @@
           .col-md-12.col-lg-12
             .text-center
               .workflow
-                %br
-                  = patient.workflow_state
+                = patient.workflow_state
             %br
-
               .col-md-12.col-lg-12
                 .text-center
                   = link_to "Edit", edit_hospital_patient_path(@hospital, patient)
@@ -91,16 +89,17 @@
   / will show the doctor that goes with that hospital
   = form_for @doctor, url: create_doctor_hospital_path(@hospital) do |f|
     / create_comment_restaurant
+   
     - @hospital.doctors.each do |doctor|
       - if doctor.id
         = doctor.doctor_name
         = link_to "Delete Doctor", delete_doctor_hospital_path(@hospital, doctor_id: doctor.id), method: :delete
-    %br
+    %div
       %br
         = f.label :doctor_name
         = f.text_field :doctor_name
-        %br
-         
-          = f.submit "submit new doctor"
+      %br
+       
+      = f.submit "submit new doctor"
  
     = link_to 'Back', hospitals_path

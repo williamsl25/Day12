@@ -24,9 +24,9 @@ class Patient < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :date_of_birth, presence: true
-  validates :gender, presence: true
+  # validates :gender, presence: true
   validates :description, presence: true
-  validates :blood_type, presence: true
+  # validates :blood_type, presence: true
   validate :at_least_10
 
   def at_least_10

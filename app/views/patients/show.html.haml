@@ -40,7 +40,9 @@
   %div
     = link_to "Edit Medication", edit_hospital_patient_path(@hospital, @patient)
   %h3 Doctors associated with patient:
-  
+  %br
+  = link_to "Add Medication", new_hospital_patient_medication_path(@hospital, @patient)
+
   %div
     = form_for @doctor, url: create_doctor_hospital_patient_path(@hospital, @patient) do |f|
       - @patient.doctors.each do |doctor|

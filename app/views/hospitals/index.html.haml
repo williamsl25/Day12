@@ -7,18 +7,43 @@
     .input-group-btn
       %button.btn.btn-default{:style => "width:40px;"}
         %i.glyphicon.glyphicon-search
-%div
-  - @hospitals.each do |hospital|
-    %h2= link_to hospital.name, hospital_path(hospital)
-    %div= hospital.address
-    %div
-      = hospital.city
-      ,#{hospital.state}
-    %div= hospital.zip
-  
-    %div
-      = link_to "Edit", edit_hospital_path(hospital)
-      |
-      = link_to "delete", hospital_path(hospital), method: :delete
-%br    
-  %div= link_to "Create Hospital", new_hospital_path
+
+.row
+- x = 0
+- y = 1
+%ul{class: "hospital_list"}     
+  - @hospitals.each_slice(10) do |row|
+    %li{class: "section_#{x+1}"}
+      - x = x + 1
+      - row.each do |hospital|
+        .col-md-5.text-center
+          %h3
+          
+            = link_to hospital[:name], hospital_path(hospital)
+        
+          = hospital[:address]
+          %br
+          = hospital[:city] 
+          ,
+          = hospital[:state]
+          %br
+          = hospital[:zip]
+          %br
+          = link_to "Edit", edit_hospital_path(hospital)
+          |
+          = link_to "delete", hospital_path(hospital), method: :delete
+        
+
+.col-md-12
+  - x.times do
+    %a{class: "page_#{y}", num: y}
+      = "page #{y}" 
+       
+      = "|"
+    - y += 1
+  %br
+  %br  
+
+
+
+
