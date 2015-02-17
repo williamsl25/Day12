@@ -66,10 +66,11 @@ class Patient < ActiveRecord::Base
         event :leave, transitions_to: :leaving
       end
 
-      state :leaving 
-      
-    end
+      state :leaving
+      end
 end
+
+      
 
   
 

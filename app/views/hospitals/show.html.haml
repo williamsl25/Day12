@@ -1,91 +1,93 @@
-%div
-  %h1= @hospital.name
-  %h3
-    %strong= @hospital.address
-    %div
-      %strong
-        = @hospital.city
-        ,
-      %strong= @hospital.state
-    %strong= @hospital.zip
-    %div
-      %strong= @hospital.phone
-%br
-  %div
-    = link_to "Add Patient", new_hospital_patient_path(@hospital)
 .col-md-12.col-lg-12
+  .text-left
+  %h3= @hospital.name
   %div
-    .text-left
-      = form_tag hospital_path, method: :get, class: "navbar-form", role: "search" do
-        .input-group
-          = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search"
-          .input-group-btn
-            %button.btn.btn-default{:style => "width:40px;"}
-              %i.glyphicon.glyphicon-search
+    = @hospital.address
+    %div
+      
+    = @hospital.city
+    ,
+    = @hospital.state
+    = @hospital.zip
+    %div
+    = @hospital.phone
+  %br
+  %div
+  = link_to "Create Patient", new_hospital_patient_path(@hospital)
+.col-md-12.col-lg-12
+  .text-left
+    = form_tag hospital_path, method: :get, class: "navbar-form", role: "search" do
+      .input-group
+        = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search"
+        .input-group-btn
+          %button.btn.btn-default{:style => "width:40px;"}
+            %i.glyphicon.glyphicon-search
     %ul
       - @patients.each do |patient|
         %div
           .col-md-12.col-lg-12
             %div
               .text-center
-                = link_to patient.first_name, hospital_patient_path(@hospital, patient)
-                = link_to patient.last_name, hospital_patient_path(@hospital, patient)
-            .col-md-12.col-lg-12
-              .text-center    
+                %strong 
+                  = link_to patient.first_name, hospital_patient_path(@hospital, patient)
+                  = link_to patient.last_name, hospital_patient_path(@hospital, patient)
+                
                 = patient.date_of_birth.strftime("%m/%d/%Y")
-            .col-md-12.col-lg-12
-              .text-center
-                = patient.description
+                |
+                %strong 
+                  = patient.description
+                |
+                = link_to "Edit", edit_hospital_patient_path(@hospital, patient)
+                |
+                = link_to "Delete", hospital_patient_path(@hospital, patient), method: :delete
+                |
 
           .col-md-12.col-lg-12
             .text-center
-              .workflow
-                = patient.workflow_state
-            %br
-              .col-md-12.col-lg-12
-                .text-center
-                  = link_to "Edit", edit_hospital_patient_path(@hospital, patient)
-                  |
-                  = link_to "Delete", hospital_patient_path(@hospital, patient), method: :delete
-                  |
-                  
-                  - if patient.waiting?
-                    = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Leaving", leave_hospital_patient_path(@hospital, patient), method: :patch
-                  - if patient.checkup?
-                    = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
-                  -if patient.xray?
-                    = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
-                  -if patient.surgery?
-                    = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
-                    |
-                    = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
-                  
-                  -if patient.paying?
-                    = link_to "Leaving", leave_hospital_patient_path(@hospital, patient), method: :patch
+              .workflow{class: "workflow-#{patient.id}"}
+                = render 'workflow', patient: patient
 
-  %h3 Doctors associated with hospital:
+                / = patient.workflow_state
+                / %br
+                /   - if patient.waiting?
+                /     = link_to "Checkup", 'javascript:void(0):', class: "checkup", hospital_id: @hospital.id, patient_id: patient.id
+                /     |
+                /     = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Leaving", leave_hospital_patient_path(@hospital, patient), method: :patch
+                /   - if patient.checkup?
+                /     = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
+                /   -if patient.xray?
+                /     = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Surgery", surgery_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
+                /   -if patient.surgery?
+                /     = link_to "Waiting", wait_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Xray", xray_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Checkup", checkup_hospital_patient_path(@hospital, patient), method: :patch
+                /     |
+                /     = link_to "Pay bill", pay_hospital_patient_path(@hospital, patient), method: :patch
+                  
+                /   -if patient.paying?
+                /     = link_to "Leaving", leave_hospital_patient_path(@hospital, patient), method: :patch
+                /   %br
+ 
+  %div
+    %strong Doctors associated with hospital:
   / will show the doctor that goes with that hospital
   = form_for @doctor, url: create_doctor_hospital_path(@hospital) do |f|
     / create_comment_restaurant
@@ -93,7 +95,9 @@
     - @hospital.doctors.each do |doctor|
       - if doctor.id
         = doctor.doctor_name
+        
         = link_to "Delete Doctor", delete_doctor_hospital_path(@hospital, doctor_id: doctor.id), method: :delete
+        %br
     %div
       %br
         = f.label :doctor_name

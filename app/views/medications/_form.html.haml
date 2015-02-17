@@ -5,25 +5,37 @@
     - @medication.errors.full_messages.each do |message|
       = message
       %br
-  %strong= f.label :name
-  = f.text_field :name, class: "form-control validate-name"
-  %br
+.div
+  = form_for [@hospital, @patient, @medication] do |f|
+    .form-group
+      %strong= f.label :name
+      = f.text_field :name, class: "form-control name_field"
+      %span.error_name
+        Medication name required
     %br
+    .form-group
       %strong= f.label :uses
-      = f.text_field :uses
-      %br
-        %br
-          %strong= f.label :dosage
-          = f.text_field :dosage
+      = f.text_field :uses, class: "form-control"
+      
+    %br
+      %strong= f.label :dosage
+      = f.text_field :dosage, class: "form-control"
+      
+    %br
+      %strong= f.label :side_effects
+      = f.text_area :side_effects, class: "form-control"
+      
+    %br
+    .div
+      .checkbox
+        = hidden_field_tag 'medication[patient_ids][]', ''
+        - @patients.each do |patient|
+          %label
+          = check_box_tag 'medication[patient_ids][]', patient.id, @medication.patients.include?(patient)
           %br
-            %br
-              %strong= f.label :side_effects
-              = f.text_area :side_effects
-              %br
-                %br
-                  - @patients.each do |patient|
-                    = check_box_tag 'medication[patient_ids][]', patient.id, @medication.patients.include?(patient)
-                    = patient.last_name
-                    %br
+          .col-md-2
+            = patient.last_name
+    %br
                   
-                  = f.submit "Submit", class: "submit_btn", disabled: 'disabled'
+      = f.submit "Submit", class: "submit_btn", disabled: 'disabled'
+      = link_to "Cancel", hospital_patient_path(@hospital, @patient)

@@ -1,52 +1,52 @@
-%h1 Form
-- @patient.inspect
+
 = form_for [@hospital, @patient] do |f|
-  - if f.object.errors.messages.length > 0
-    -f.object.errors.messages.inspect
-    %br/
-    - f.object.errors.messages.each do |key, value|
-      -value.each do |message|
-      = key.capitalize
+  - if @patient.errors.any?
+    - @patient.errors.full_messages.each do |message|
       = message
       %br
-  .formgroup
-    = f.label :first_name
-    = f.text_field :first_name, class: "form-control validate-first-name"
-    .formgroup
-      = f.label :last_name
-      = f.text_field :last_name, class: "form-control validate-last-name"
-      %br
-        %br
-          = f.label :date_of_birth
-          = f.date_field :date_of_birth, :start_year => Date.today.year - 100, :end_year => Date.today.year
+.div
+  = form_for [@hospital, @patient] do |f|
+    .form-group
+      %strong= f.label :first_name
+      = f.text_field :first_name, class: "form-control name_field"
+      %span.error_first_name
+        First name required
+    .form-group
+      %strong= f.label :last_name
+      = f.text_field :last_name, class: "form-control name_field"
+      %span.error_last_name
+        Last name required
+    %br
+    .form-group
+      = f.label :date_of_birth
+      = f.date_field :date_of_birth, :start_year => Date.today.year - 100, :end_year => Date.today.year, class: "form-control"
+      %span.error_date_of_birth
+        Date of Birth required
+    %br
+      = f.label :gender
+      = f.radio_button(:gender, "male")
+      = f.label(:gender, "male")
+      = f.radio_button(:gender, "female")
+      = f.label(:gender, "female")
+    %br
+    .form-group
+      = f.label :description
+      = f.text_field :description, class: "form-control"
+    %br
+      = f.label :blood_type
+      = f.select :blood_type, options_for_select(Patient::BLOOD_TYPE_OPTIONS, f.object.blood_type), include_blank: "---Select---"
+    %br
+    .div
+      
+      .checkbox
+        = hidden_field_tag 'patient[medication_ids][]', ''
+        - @medications.each do |medication|
+          %label
+          = check_box_tag 'patient[medication_ids][]', medication.id, @patient.medications.include?(medication)
           %br
-            / how do you include patient must be 10 or older?
-            %br
-              = f.label :gender
-              = f.radio_button :gender, 'male'
-              = f.label(:gender, "male")
-              = f.radio_button(:gender, 'female')
-              = f.label(:gender, "female")
-              %br
-                / gender always gives error message- how do you include empty option and save patient
-                .formgroup
-                  = f.label :description
-                  = f.text_area :description, class: "form-control"
-                  %br
-                    %br
-                      = f.label :blood_type
-                      = f.select :blood_type,                                                                                |
-                        options_for_select( Patient::BLOOD_TYPE_OPTIONS, f.object.blood_type), include_blank: "---select---" |
-                      %br
-                        %br
-                        .checkbox
-                          = hidden_field_tag 'patient[medication_ids][]', ''
-                          - @medications.each do |medication|
-                            %label
-                              = check_box_tag 'patient[medication_ids][]', medication.id, @patient.medications.include?(medication)
-                              = medication.name
-
-                        = f.submit "Submit", class: "submit_btn", disabled: 'disabled'
-                          
-
-                        = link_to "Cancel", hospital_path(@hospital)
+          .col-md-2
+            = medication.name
+  
+    %br
+      = f.submit "Submit", class: "submit_btn", disabled: 'disabled'
+      = link_to "Cancel", hospital_path(@hospital)

@@ -8,7 +8,7 @@ class MedicationsController < ApplicationController
 
   def show
     @patient = Patient.find params[:patient_id]
-    # @hospital = Hospital.find params[:hospital_id]
+    @hospital = Hospital.find params[:hospital_id]
     @medication = Medication.find params[:id]
     @patients = @medication.patients
   end
@@ -21,7 +21,6 @@ class MedicationsController < ApplicationController
     
   end
 
-
   def create
      @hospital = Hospital.find params[:hospital_id]
      @patient = Patient.find params[:patient_id]
@@ -31,27 +30,29 @@ class MedicationsController < ApplicationController
         flash[:notice] = 'Medication was successfully perscribed.'
         redirect_to hospital_patient_path(@hospital, @patient) 
       else
-        flash[:error] = "Medication was NOT saved."
+        flash[:alert] = "Medication was NOT saved."
         render :new 
       end
     end
-    
     
   def edit
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:patient_id]
     @medication = Medication.find params [:id]
-    @patients = Patients.all
     
+     
   end
+# wrong num of arguments when I try to edit medication?
 
   def update
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:patient_id]
     @medication = Medication.find params[:id]
     if @medication.update_attributes medication_params
+      flash[:notice] = "Medication was successfully UPDATED."
       redirect_to hospital_patient_path(@hospital, @patient) 
     else
+      flash[:alert] = "Medication was NOT updated."
       render :edit
     end
     

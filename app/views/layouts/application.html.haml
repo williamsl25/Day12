@@ -38,8 +38,22 @@
     .jumbotron
       .container
         %h1 Ironyard Hospital System
-        %p This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
-        %p
-          %a.btn.btn-primary.btn-lg{:href => "#", :role => "button"} Learn more &raquo;
-    %p.notice= notice if notice
+        %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        
+    
+
+    .container
+    -if notice
+      .alert.alert-success{ role: "alert"}
+        = notice
+    -if alert
+      .alert.alert-danger{ role: "alert"}
+        = alert 
+
+
     = yield

@@ -16,7 +16,6 @@ class PatientsController < ApplicationController
   def index
     @patients = Patient.all
     @hospital = Hospital.find params[:hospital_id]
-   
   end
 
   def show
@@ -48,10 +47,11 @@ class PatientsController < ApplicationController
       flash[:notice] = "Patient was successfully created."
       redirect_to hospital_path(@hospital)
     else
-      flash[:error] = "Patient was NOT saved."
+      flash[:alert] = "Patient was NOT saved."
       render :new
     end
   end
+
   def create_doctor
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:id]
@@ -72,6 +72,7 @@ class PatientsController < ApplicationController
     @patient = Patient.find params[:id]
     # added for join table
     @medications = Medication.all
+    @medication = Medication.find params[:id]
   end
 
   def update
@@ -80,9 +81,11 @@ class PatientsController < ApplicationController
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:id]
     if @patient.update_attributes patient_params
+      flash[:notice] = "Patient was successfully UPDATED."
       redirect_to hospital_patient_path(@hospital, @patient)
     else 
-      render :new
+      flash[:alert] = "Patient was NOT updated."
+      render :edit
     end
   end
 
@@ -95,32 +98,47 @@ class PatientsController < ApplicationController
 
   def wait
     @patient.wait!
-    redirect_to hospital_patients_path
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def checkup
     @patient.checkup!
-    redirect_to hospital_patients_path
+    respond_to do |format|
+        format.js
+        format.html
+      end
   end
 
   def xray
     @patient.xray!
-    redirect_to hospital_patients_path
+    respond_to do |format|
+        format.js
+        format.html
+      end
   end
 
   def surgery
     @patient.surgery!
-    redirect_to hospital_patients_path
+    respond_to do |format|
+        format.js
+        format.html
+      end
   end
 
   def pay
-    @patient.paybr!
+    @patient.paybill!
     redirect_to hospital_patients_path
   end
 
   def leave
     @patient.leave!
-    redirect_to hospital_patients_path
+    respond_to do |format|
+        format.js
+        format.html
+      end
   end
 
 private
@@ -139,6 +157,16 @@ private
       :blood_type,
       medication_ids: []
     )
+  end
+  def medication_params
+    params.require(:medication).permit(
+      :name,
+      :uses,
+      :dosage,
+      :side_effects,
+      patient_ids: []
+      )
+  
   end
 
   def doctor_params

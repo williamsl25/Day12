@@ -1,0 +1,9 @@
+= patient.workflow_state
+%br
+  - if patient.waiting?
+    = link_to "Checkup", 'javascript:void(0):', class: "checkup", hospital_id: @hospital.id, patient_id: patient.id
+    = link_to "Xray", 'javascript:void(0):', class: "xray", hospital_id: @hospital.id, patient_id: patient.id
+    = link_to "Surgery", 'javascript:void(0):', class: "surgery", hospital_id: @hospital.id, patient_id: patient.id
+    = link_to "Leaving", 'javascript:void(0):', class: "leave", hospital_id: @hospital.id, patient_id: patient.id
+  - if patient.checkup?
+    = link_to "Waiting", 'javascript:void(0):', class: "wait", hospital_id: @hospital.id, patient_id: patient.id

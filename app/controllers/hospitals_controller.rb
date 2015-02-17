@@ -35,7 +35,7 @@ class HospitalsController < ApplicationController
       flash[:notice] = 'Hospital was successfully created'
       redirect_to @hospital
     else
-      flash[:error] = "Hospital was NOT saved"
+      flash[:alert] = "Hospital was NOT saved"
       render :new
     end
   end
@@ -60,7 +60,14 @@ class HospitalsController < ApplicationController
   def update
     @hospital = Hospital.find params[:id]
     @hospital.update_attributes hospital_params
-    redirect_to hospitals_path
+    if @hospital.update_attributes hospital_params
+      flash[:notice] = "Patient was successfully UPDATED."
+      redirect_to hospitals_path
+    else
+      flash[:alert] = "Patient was NOT updated."
+      render :edit
+    end
+
   end
 
   def destroy

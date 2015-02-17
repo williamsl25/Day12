@@ -7,7 +7,7 @@
     .input-group-btn
       %button.btn.btn-default{:style => "width:40px;"}
         %i.glyphicon.glyphicon-search
-
+= link_to "Create Hospital", new_hospital_path
 .row
 - x = 0
 - y = 1
@@ -16,7 +16,7 @@
     %li{class: "section_#{x+1}"}
       - x = x + 1
       - row.each do |hospital|
-        .col-md-5.text-center
+        .col-md-5
           %h3
           
             = link_to hospital[:name], hospital_path(hospital)
@@ -37,7 +37,7 @@
 .col-md-12
   - x.times do
     %a{class: "page_#{y}", num: y}
-      = "page #{y}" 
+      = " #{y}" 
        
       = "|"
     - y += 1
