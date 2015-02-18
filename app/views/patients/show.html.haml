@@ -1,63 +1,99 @@
-%div
-  %h2
-    = link_to "Welcome", root_path
-    |
-    = link_to @hospital.name, hospital_path(@hospital)
-%div.row
-  %div.col-md-4
-    = @patient.first_name
-    = @patient.last_name
-  %div
-    Date of Birth: #{@patient.date_of_birth.strftime("%m/%d/%Y")}
-  %div
-    Gender: #{@patient.gender}
-  %div
-    Reason for visit:  #{@patient.description}
-%div
-  %h2 
-    Medications:
+.col-md-6.col-md-offset-3
+  = link_to "Welcome", hospitals_path
+  |
+  = link_to @hospital.name, hospital_path(@hospital)
+.col-md-12.col-lg-12
   .text-left
-    = form_tag hospital_patient_path, method: :get, class: "navbar-form", role: "search" do
-      .input-group
-        = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search"
-        .input-group-btn
-          %button.btn.btn-default{:style => "width:40px;"}
-            %i.glyphicon.glyphicon-search
+  %h3= @hospital.name
   %div
-    - @medications.each do |medication|
-      %ul
-        %li
-          %h3= medication.name
-          %div
+    = @hospital.address
+    %div
+      
+    = @hospital.city
+    ,
+    = @hospital.state
+    = @hospital.zip
+    %div
+    = @hospital.phone
+  .text-center
+    %h3
+      Patient Information Page
+.col-md-6.col-md-offset-3
+  .text-center
+    %h4
+      = @patient.first_name
+      = @patient.last_name
+      %div
+    Date of Birth: #{@patient.date_of_birth.strftime("%m/%d/%Y")}
+    %br
+    Gender: #{@patient.gender}
+    %br
+    %strong
+      Reason for visit:  #{@patient.description}
+
+.col-md-12.col-lg-12
+  .list-group-item 
+    .text-center
+      %strong 
+        %h4
+          Patient Medications:
+    .col-md-12.col-lg-12   
+      .text-left
+        = form_tag hospital_patient_path, method: :get, class: "navbar-form", role: "search" do
+          .input-group
+            = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search Medications"
+            .input-group-btn
+              %button.btn.btn-default{:style => "width:40px;"}
+                %i.glyphicon.glyphicon-search
+    .col-md-12.col-lg-12
+      .text-center
+        - @medications.each do |medication|
+          %strong 
+            = medication.name
+          %li 
             %strong Used for:
             = medication.uses
-          %div
+          %li
             %strong Dosage:
             = medication.dosage
-          %div
+          %li
             %strong Side Effects:
             = medication.side_effects
-  %div
-    = link_to "Edit Medication", edit_hospital_patient_path(@hospital, @patient)
-  %h3 Doctors associated with patient:
-  %br
-  = link_to "Add Medication", new_hospital_patient_medication_path(@hospital, @patient)
-
-  %div
-    = form_for @doctor, url: create_doctor_hospital_patient_path(@hospital, @patient) do |f|
-      - @patient.doctors.each do |doctor|
-        - if doctor.id
+              
           %br
-            = doctor.doctor_name
-            = link_to "Delete", delete_doctor_hospital_patient_path(@hospital, @patient, doctor_id: doctor.id), method: :delete
-          %br
-   
-          %div
+        = link_to "Add Medication", new_hospital_patient_medication_path(@hospital, @patient)
+.col-md-12.col-lg-12
+  .text-center
+    %strong 
+      %h4
+        Patient Doctor(s): 
+.col-md-12.col-lg-12
+  .list-group-item
+    .text-center      
+      - @doctors.each do |doctor|
+        %li
+          = doctor.doctor_name
+          = link_to "Delete Doctor", delete_doctor_hospital_patient_path(@patient, doctor), method: :delete
+        %br
+ 
+        = form_for @doctor, url: create_doctor_hospital_patient_path(@hospital, @patient) do |f|
+          .form_group
             = f.label :doctor_name
-            = f.text_field :doctor_name
-            = f.submit "submit new doctor"
-          %br
-            %div
-              = link_to "Delete Patient", hospital_patient_path(@hospital, @patient), method: :delete
-              |
-              = link_to 'Back to Hospitals List', hospitals_path
+            = f.text_area :doctor_name
+            
+            = f.submit "Add Doctor"
+        
+.col-md-12.col-lg-12
+ 
+  .text-center            
+
+    = link_to "Edit Patient", edit_hospital_patient_path(@hospital, @patient)
+    |
+    = link_to "Delete Patient", hospital_patient_path(@hospital, @patient), method: :delete
+    |
+    = link_to 'Back to Hospitals List', hospitals_path
+
+
+
+              
+      

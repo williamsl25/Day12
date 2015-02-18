@@ -10,12 +10,12 @@ class HospitalsController < ApplicationController
 
   
   def show
-    @patients = if !params[:q].blank?
-      Patient.where("first_name LIKE ? OR last_name LIKE ? OR date_of_birth LIKE ? OR description LIKE ? OR gender LIKE ? OR blood_type LIKE ? OR workflow_state LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%")
-    else
-      Patient.all
-    end
     @hospital = Hospital.find params[:id]
+    @patients = if !params[:q].blank?
+      @hospital.patients.where("first_name LIKE ? OR last_name LIKE ? OR date_of_birth LIKE ? OR description LIKE ? OR gender LIKE ? OR blood_type LIKE ? OR workflow_state LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%")
+    else
+      @hospital.patients
+    end
     @doctor = @hospital.doctors.new
   end
 

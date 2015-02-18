@@ -19,15 +19,15 @@ class PatientsController < ApplicationController
   end
 
   def show
-    @medications = if !params[:q].blank?
-      Medication.where("name LIKE ? OR uses LIKE ? OR dosage LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%")
-    else
-      Medication.all
-    end
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:id]
-    @medication = @patient.medications
-    @doctor = @patient.doctors.new
+    @medications = if !params[:q].blank?
+      @patient.medications.where("name LIKE ? OR uses LIKE ? OR dosage LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%", "%#{params[:q]}%")
+    else
+      @patient.medications
+    end
+    @doctor = Doctor.new
+    @doctors = @patient.doctors
   end
 
   def new
@@ -71,8 +71,8 @@ class PatientsController < ApplicationController
     @hospital = Hospital.find params[:hospital_id]
     @patient = Patient.find params[:id]
     # added for join table
-    @medications = Medication.all
-    @medication = Medication.find params[:id]
+    @medications = @patient.medications
+    
   end
 
   def update
@@ -97,6 +97,8 @@ class PatientsController < ApplicationController
   end
 
   def wait
+    @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
     @patient.wait!
     respond_to do |format|
       format.js
@@ -105,6 +107,8 @@ class PatientsController < ApplicationController
   end
 
   def checkup
+    @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
     @patient.checkup!
     respond_to do |format|
         format.js
@@ -113,6 +117,8 @@ class PatientsController < ApplicationController
   end
 
   def xray
+    @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
     @patient.xray!
     respond_to do |format|
         format.js
@@ -121,6 +127,8 @@ class PatientsController < ApplicationController
   end
 
   def surgery
+    @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
     @patient.surgery!
     respond_to do |format|
         format.js
@@ -129,11 +137,19 @@ class PatientsController < ApplicationController
   end
 
   def pay
-    @patient.paybill!
-    redirect_to hospital_patients_path
+    @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
+    @patient.pay!
+    respond_to do |format|
+        format.js
+        format.html
+      end
+
   end
 
   def leave
+    @hospital = Hospital.find params[:hospital_id]
+    @patient = Patient.find params[:id]
     @patient.leave!
     respond_to do |format|
         format.js

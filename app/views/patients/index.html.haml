@@ -1,22 +1,30 @@
-%h1 Patient List
-= link_to "Welcome", hospitals_path
-%br
-  = link_to "Create Patient", new_hospital_patient_path(@hospital)
-  %ul
+.col-md-6.col-md-offset-3
+  = link_to "Welcome", hospitals_path
+  |
+  = link_to @hospital.name, hospital_path(@hospital)
+  .text-center
+    %h2
+      Patient Workflow
+    
+    = link_to "Create Patient", new_hospital_patient_path(@hospital)
+.col-md-12
+  .text-center
     - @patients.each do |patient|
-      %li
-        = link_to patient.first_name, hospital_patient_path(@hospital, patient)
-        = link_to patient.last_name, hospital_patient_path(@hospital, patient)
-        %br
-          = patient.date_of_birth.strftime("%m/%d/%Y")
-          %br
+      .col-md-6.col-md-offset-3
+        .list-group-item
+          .text-center
+            %strong 
+            = link_to patient.first_name, hospital_patient_path(@hospital, patient)
+            = link_to patient.last_name, hospital_patient_path(@hospital, patient)
+            %br 
             = patient.gender
+            = patient.date_of_birth.strftime("%m/%d/%Y")
             %br
-              = patient.description
+            = patient.description
+          %strong
+            .workflow{class: "workflow-#{patient.id}"}
+              = render 'workflow', patient: patient
+
               
-            = link_to "Edit", edit_hospital_patient_path(@hospital, patient)
-            |
-            = link_to "Delete", hospital_patient_path(@hospital, patient), method: :delete
-            |
-            = link_to "Back", hospital_patients_path
-            
+    
+    

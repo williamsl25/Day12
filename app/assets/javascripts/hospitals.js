@@ -81,7 +81,7 @@ $(document).ready( function() {
       
     })
   })
-  $(document).on("click", ".wait", function() {
+  $(document).on("click", ".waiting", function() {
     var hospital_id = $(this).attr("hospital_id");
     var patient_id = $(this).attr("patient_id");
     $.ajax({
@@ -91,5 +91,14 @@ $(document).ready( function() {
       
     })
   })
-
+  $(document).on("click", ".paying", function() {
+    var hospital_id = $(this).attr("hospital_id");
+    var patient_id = $(this).attr("patient_id");
+    $.ajax({
+      type: 'PATCH',
+      url: '/hospitals/' + hospital_id + '/patients/' + patient_id + '/pay',
+      dataType: 'script'
+      
+    })
+  })
 });
