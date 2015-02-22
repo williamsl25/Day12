@@ -21,16 +21,14 @@
         .navbar-header
           %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
             %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %button
-            %a.btn.btn-default{:href => "http://localhost:3000/"} Welcome
+          .text-left  
+            %button.welcome
+              %a.btn.btn-default{:href => "http://localhost:3000/"} Welcome
         #navbar.navbar-collapse.collapse
           %ul.nav.navbar-nav
             
             %li
-              %button
+              %button.hospital
                 %a.btn.btn-default{:href => "http://localhost:3000/hospitals"} Hospitals
         / /.nav-collapse
     .jumbotron

@@ -1,41 +1,42 @@
 / url= localhost:3000/hospitals
-.container
-  .col-md-6
-    = link_to 'Welcome', root_path
-    |
-    = link_to "Create Hospital", new_hospital_path
-.container
-  .col-md-12
-    = form_tag hospitals_path, method: :get, class: "navbar-form", role: "search" do
-      .input-group
-        = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search"
-        .input-group-btn
-          %button.btn.btn-default{:style => "width:40px;"}
-            %i.glyphicon.glyphicon-search
+%div.col-sm-3.col-md-6.col-lg-12
+  .text-left
+    %button.create_hospital
+      = link_to "Create Hospital", new_hospital_path, class: "stylebutton"
+
+%div.search
+  
+  = form_tag hospitals_path, method: :get, class: "navbar-form", role: "search" do
+    .input-group
+      = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search"
+      .input-group-btn
+        %button.btn.btn-default{:style => "width:40px;"}
+          %i.glyphicon.glyphicon-search
 .row
 - x = 0
 - y = 1
 %ul{class: "hospital_list"}     
-  - @hospitals.each_slice(10) do |row|
+  - @hospitals.each_slice(6) do |row|
     %li{class: "section_#{x+1}"}
       - x = x + 1
       - row.each do |hospital|
-        .col-md-5
-          %h4
+        .imgOut
+          .hospital_list
+            %h4
+            
+              = link_to hospital[:name], hospital_path(hospital)
           
-            = link_to hospital[:name], hospital_path(hospital)
-        
-          = hospital[:address]
-          %br
-          = hospital[:city] 
-          ,
-          = hospital[:state]
-          %br
-          = hospital[:zip]
-          %br
-          = link_to "Edit", edit_hospital_path(hospital)
-          |
-          = link_to "delete", hospital_path(hospital), method: :delete
+            = hospital[:address]
+            %br
+            = hospital[:city] 
+            ,
+            = hospital[:state]
+            %br
+            = hospital[:zip]
+            %br
+            = link_to "Edit", edit_hospital_path(hospital), class: "btn btn-danger"
+            
+            = link_to "delete", hospital_path(hospital), method: :delete, class: "btn btn-danger"
         
 
 .col-md-12

@@ -3,64 +3,67 @@
     = link_to 'Back to hospital main page', hospitals_path
 .container
   .text-left
-  %h3= @hospital.name
-  %div
-    = @hospital.address
-    %div
-      
-    = @hospital.city
-    ,
-    = @hospital.state
-    = @hospital.zip
-    %div
-    = @hospital.phone
-  %br
-  %div
-  = link_to "Create Patient", new_hospital_patient_path(@hospital)
-.container
-  .text-left
     = form_tag hospital_path, method: :get, class: "navbar-form", role: "search" do
       .input-group
         = text_field_tag 'q', params[:q], class: "form-control", id: "srch-term", placeholder: "Search Patients"
         .input-group-btn
           %button.btn.btn-default{:style => "width:40px;"}
             %i.glyphicon.glyphicon-search
-.col-md-6.col-md-offset-3
-  .text-center
-    %h4
-      = link_to "Patient Workflow", hospital_patients_path(@hospital)
- 
-  .text-center
-    %strong 
-    - @patients.each do |patient|
-      .list-group-item
-        .text-center
-          %strong 
-            = link_to patient.first_name, hospital_patient_path(@hospital, patient)
-            = link_to patient.last_name, hospital_patient_path(@hospital, patient)
-            = patient.date_of_birth.strftime("%m/%d/%Y")
+
+
+  .container
+    .text-left
+    %h3= @hospital.name
+    %div
+      = @hospital.address
+      %div
+        
+      = @hospital.city
+      ,
+      = @hospital.state
+      = @hospital.zip
+      %div
+      = @hospital.phone
+    %br
+    %div
+    = link_to "Create Patient", new_hospital_patient_path(@hospital)
+
 .container
-            
+  / .list-group-item.workflow
   .text-center
-    %strong Doctors associated with hospital:
-  / will show the doctor that goes with that hospital
+    %h4.patient
+      .text-uppercase
+      = link_to "Patient Workflow", hospital_patients_path(@hospital), class: "btn btn-danger"
 
+  - @patients.each do |patient|
+    .list-group-item.workflow
+      .text-center
+        %strong 
+          = link_to patient.first_name, hospital_patient_path(@hospital, patient)
+          = link_to patient.last_name, hospital_patient_path(@hospital, patient)
+          = patient.date_of_birth.strftime("%m/%d/%Y")
+%br
+
+.container.doctors
+  .text-center.doctor1
+    %u
+      %h4 Doctors associated with hospital:
+    / will show the doctor that goes with that hospital
+  / .list-group-item.form
   .text-center
-    %strong  
     = form_for @doctor, url: create_doctor_hospital_path(@hospital) do |f|
-
       - @hospital.doctors.each do |doctor|
         - if doctor.id
           = doctor.doctor_name
           |
           = link_to "Delete Doctor", delete_doctor_hospital_path(@hospital, doctor_id: doctor.id), method: :delete
           %br
-      %div
+      %div.doctors
         %br
           = f.label :doctor_name
           = f.text_field :doctor_name
-       
-         
-          = f.submit "submit new doctor"
+           
+          = f.submit "submit new doctor", class: "btn btn-primary"
+          
    
-    
+  

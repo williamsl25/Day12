@@ -25,7 +25,7 @@
   background-size: cover;
   color: #FFFFFF;
   font-size: 16px;
-  font-family: Helvetica, sans-serif;
+  font-family: comic;
   text-shadow: 0 1px 0 rgba(0,0,0,0.25);
 }
 .container-logo{
@@ -35,4 +35,6 @@
 .purple {
   color: plum;
 }
+button.welcome {
+  
 }
