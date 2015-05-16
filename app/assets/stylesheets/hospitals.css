@@ -1,4 +1,6 @@
-
+.input-group {
+  margin-right: 50px;
+}
 .styleButton, button {
   background-color: #9bb0de;
   border: 3px solid #2d4a87;
@@ -46,7 +48,8 @@ div.hospital_list {
   display: inline-block;
   box-sizing: border-box;
   box-shadow: 0 0 1em grey;
-  transition: transform 300ms linear; }
+  transition: transform 300ms linear;
+  margin-left: 50px; }
 
 .imgOut:hover {
   transform: scale(1.05, 1.05);
@@ -73,4 +76,7 @@ div.search {
   
   background-color: #f1f3f4;
   box-shadow: 10px 10px 5px #748a9d;
+}
+.create_hospital {
+  margin-left: 75px
 }
